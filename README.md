@@ -6,6 +6,8 @@ https://github.com/duckdb/duckdb-java
 
 https://mvnrepository.com/artifact/org.duckdb/duckdb_jdbc
 
+Requires Lucee 6.2.1 or newer
+
 [![Java CI](https://github.com/lucee/extension-jdbc-duckdb/actions/workflows/main.yml/badge.svg)](https://github.com/lucee/extension-jdbc-duckdb/actions/workflows/main.yml)
 
 Issues: https://luceeserver.atlassian.net/issues/?jql=labels%20%3D%20duckdb
