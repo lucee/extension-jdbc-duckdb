@@ -199,7 +199,14 @@
     <trim text="${manifest.Bundle-SymbolicName}" property="symbolicName"/>
     <trim text="${manifest.Bundle-Version}" property="symbolicVersion"/>
     
-    
+    <fail message="Bundle-Version is missing or empty in MANIFEST.MF from ${jar}, not an OSGI bundle?">
+        <condition>
+            <or>
+                <equals arg1="${symbolicVersion}" arg2=""/>
+                <equals arg1="${symbolicVersion}" arg2="$${manifest.Bundle-Version}"/>
+            </or>
+        </condition>
+    </fail>
     
     <!-- read class info -->
     <unzip src="${jar}" dest="${temp}">
@@ -223,6 +230,7 @@
 
     <property name="distl" location="${temp}/extension/${symbolicName}-${symbolicVersion}/"/>
     
+    <delete dir="${temp}"/>
     <mkdir dir="${distl}"/>
       
 
@@ -231,6 +239,7 @@
     </tstamp>
 
     <!-- write the manifest -->
+    <!-- TODO only works with start-bundles: true, is it because the bundle isn't on maven yet? -->
     <echo file="${distl}/META-INF/MANIFEST.MF">Manifest-Version: 1.0
 Built-Date: ${NOW}
 version: "${symbolicVersion}"
@@ -238,8 +247,8 @@ id: "${id}"
 name: "${label}"
 description: "${desc}"
 category: "Datasource"
-lucee-core-version: "5.0.0.019"
-start-bundles: false
+lucee-core-version: "5.4.0.0"
+start-bundles: true
 jdbc: "[{'label':'${label}','id':'${jdbcid}','connectionString':'${_connstr}','class':'${className}','bundleName':'${symbolicName}','bundleVersion':'${symbolicVersion}'}]"
 </echo>
 
@@ -259,7 +268,7 @@ jdbc: "[{'label':'${label}','id':'${jdbcid}','connectionString':'${_connstr}','c
     <replace haystack="${content3}" needle="{id}" repl="${jdbcid}" property="content4"/>
     <replace haystack="${content4}" needle="{label}" repl="${label}" property="content5"/>
     <replace haystack="${content5}" needle="{description}" repl="${desc}" property="content6"/>
-    <replace haystack="${content6}" needle="{connString}" repl="${_connstr}" property="content7"/>
+    <replace haystack="${content6}" needle="{connection-string}" repl="${_connstr}" property="content7"/>
     <echo message="${content7}" file="${distl}/context/admin/dbdriver/${cfcName}"/>
 
 
