@@ -247,7 +247,7 @@ id: "${id}"
 name: "${label}"
 description: "${desc}"
 category: "Datasource"
-lucee-core-version: "5.4.0.0"
+lucee-core-version: "6.2.1.118"
 start-bundles: true
 jdbc: "[{'label':'${label}','id':'${jdbcid}','connectionString':'${_connstr}','class':'${className}','bundleName':'${symbolicName}','bundleVersion':'${symbolicVersion}'}]"
 </echo>
