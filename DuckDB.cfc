@@ -29,7 +29,7 @@
 			"path",
 			"",
 			false,
-			"Path where the database is or should be located (only Filesystem, virtual Resources like ""ram"" not supported), only required for type=file"
+			"Path to a file database (with an extension like .duckdb, .db, etc) located (only Filesystem, virtual Resources like ""ram"" not supported), only required for type=file"
 		),
 		field(
 			"Read only",
@@ -68,7 +68,7 @@
 			var _dsn = "";
 			switch (form.custom_dbtype){
 				case "file":
-					_dsn = "jdbc:duckdb:file:{path}";
+					_dsn = "jdbc:duckdb:{path}";
 					break;
 				case "cloud":
 					_dsn = "jdbc:duckdb:md:#form.custom_motherduck_database#?motherduck_token=#form.custom_motherduck_token#";
@@ -129,6 +129,10 @@
 			</cfdefaultcase>
 		</cfswitch>
 		<cfif len(form.custom_path)>
+			<cfset var pathExt = listLast(form.custom_path, ".")>
+			<cfif !isEmpty( pathExt ) >
+				<cfthrow message="path [#form.custom_path#] needs to specify a file with a extension, i.e .duckdb, .db, etc">
+			</cfif>
 			<cfset form.custom_path=replace(
 							form.custom_path,
 							SLASH[server.separator.file],
