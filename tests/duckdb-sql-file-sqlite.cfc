@@ -2,13 +2,13 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 
 	function beforeAll (){
 		variables.bundleName = "org.duckdb.duckdb_jdbc";
-		variables.bundleVersion = "1.4.0.0";
+		//variables.bundleVersion = "1.4.0.0";
 		var tempDB = getTempDirectory() & createUUID();
 		directoryCreate( tempDB );
 		variables.ds = {
 			  class: "org.duckdb.DuckDBDriver"
 			, bundleName: bundleName
-			, bundleVersion: bundleVersion
+		//	, bundleVersion: bundleVersion
 			, connectionString: "jdbc:duckdb:sqlite:#tempDB#\test.sqlite"
 		};
 		QueryExecute("DROP TABLE IF EXISTS test_table", {}, {datasource=ds});
