@@ -1,7 +1,13 @@
 component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 
 	// keep in sync with pom.xml mvnVersion (major.minor.patch.revision)
-	variables.mavenDriverVersionPrefix = "1.4.5.0";
+	variables.mavenVersion = "1.4.5.0";
+	// DuckDB reports its engine version (e.g. "v1.4.5") as the database product
+	// version; the JDBC driver_version is a generic "1.0", so we assert on the
+	// engine version derived from the first three segments of the maven version.
+	variables.engineVersion = listGetAt( mavenVersion, 1, "." )
+		& "." & listGetAt( mavenVersion, 2, "." )
+		& "." & listGetAt( mavenVersion, 3, "." );
 
 	private boolean function luceeSupportsMavenJdbc() {
 		try {
@@ -18,7 +24,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 			connectionString: "jdbc:duckdb:"
 		};
 		if ( arguments.mode eq "maven" ) {
-			ds.maven = "org.duckdb:duckdb_jdbc:" & variables.mavenDriverVersionPrefix;
+			ds.maven = "org.duckdb:duckdb_jdbc:" & variables.mavenVersion;
 		}
 		return ds;
 	}
@@ -26,7 +32,7 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 	function run( testResults, testBox ) {
 		describe( title="DuckDB JDBC extension driver version", body=function() {
 			it(
-				title="reports the DuckDB JDBC driver version in use",
+				title="loads the DuckDB JDBC driver and reports the expected engine version",
 				body=function( currentSpec ) {
 					var mode = luceeSupportsMavenJdbc() ? "maven" : "bundle";
 					var ds = getDatasource( mode );
@@ -49,12 +55,8 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 
 					expect( dbVersion.recordCount ).toBe( 1 );
 					expect( dbVersion.driver_name ).toInclude( "DuckDB" );
-
-					if ( mode eq "maven" ) {
-						expect( dbVersion.driver_version ).toInclude( variables.mavenDriverVersionPrefix );
-					} else {
-						systemOutput( "DuckDB JDBC driver loaded via OSGi bundle; Maven version assertion skipped", true );
-					}
+					// e.g. "v1.4.5" contains "1.4.5" -> confirms the 1.4.5.0 artifact is loaded
+					expect( dbVersion.database_version ).toInclude( variables.engineVersion );
 				}
 			);
 		} );
