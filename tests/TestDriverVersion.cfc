@@ -1,7 +1,7 @@
 component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 
 	// keep in sync with pom.xml mvnVersion (major.minor.patch.revision)
-	variables.mavenVersion = "1.4.5.0";
+	variables.mavenVersion = "1.5.4.0";
 	// DuckDB reports its engine version (e.g. "v1.4.5") as the database product
 	// version; the JDBC driver_version is a generic "1.0", so we assert on the
 	// engine version derived from the first three segments of the maven version.
