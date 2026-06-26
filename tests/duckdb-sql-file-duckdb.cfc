@@ -2,14 +2,14 @@ component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 
 	function beforeAll (){
 		variables.bundleName = "org.duckdb.duckdb_jdbc";
-		//variables.bundleVersion = "1.4.0.0";
+		variables.mavenVersion = "1.4.5.0"; // keep in sync with pom.xml mvnVersion
 		var tempDB = getTempDirectory() & createUUID();
 		directoryCreate( tempDB );
 		//tempDB = replace( tempDB, "\", "//", "all" );
 		variables.ds = {
 			  class: "org.duckdb.DuckDBDriver"
 			, bundleName: bundleName
-		//	, bundleVersion: bundleVersion
+			, maven: "org.duckdb:duckdb_jdbc:" & mavenVersion
 			, connectionString: "jdbc:duckdb:#tempDB#\test.duckdb"
 		};
 		QueryExecute("DROP TABLE IF EXISTS test_table", {}, {datasource=ds});
