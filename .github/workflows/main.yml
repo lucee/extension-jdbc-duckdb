@@ -121,7 +121,7 @@ jobs:
         env:
           TEST_VERSIONS: ${{ vars.LUCEE_TEST_VERSIONS_PLUS }}
           FALLBACK_LINES: "7.1 8.0"
-          # Lucee 8.0 requires this extension, so it is always tested, even when the variable has no 8.0 entry
+          # Lucee 8.0 is always tested, even when the variable has no 8.0 entry
           REQUIRED_LINES: "8.0"
           # Lowest Lucee line (major.minor) that can load this extension: the driver is loaded from its maven
           # coordinates, which Lucee supports from 7.1.0.184 on
