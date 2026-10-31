@@ -69,8 +69,8 @@
             <arg value="-DoutputDirectory=${temp}/dependency"/>
             <arg value="-Dmdep.copyPom=true"/>
             <arg value="-Dmdep.useRepositoryLayout=true"/>
-            <arg value="-DincludeGroupIds=org.duckdb"/>
-            <arg value="-DincludeArtifactIds=duckdb_jdbc"/>
+            <arg value="-DincludeGroupIds=${mvnGroupId}"/>
+            <arg value="-DincludeArtifactIds=${mvnArtifactId}"/>
             <arg value="-DincludeVersion=${mvnVersion}"/>
             <arg value="dependency:copy-dependencies"/>
         </exec>
@@ -113,7 +113,7 @@ category: "Datasource"
 lucee-core-version: "${luceeCoreVersion}"
 release-type: ${releaseType}
 start-bundles: false
-jdbc: "[{'id':'${jdbcid}','connectionString':'${_connstr}','label':'${label}','class':'${driverClass}','bundleName':'${bundleName}','bundleVersion':'${bundleVersion}','maven':'${mvnGroupId}:${mvnArtifactId}:${mvnVersion}'}]"
+jdbc: "[{'id':'${jdbcid}','connectionString':'${_connstr}','label':'${label}','class':'${driverClass}','maven':'${mvnGroupId}:${mvnArtifactId}:${mvnVersion}'}]"
 </echo>
     </target>
 
@@ -129,7 +129,7 @@ jdbc: "[{'id':'${jdbcid}','connectionString':'${_connstr}','label':'${label}','c
         <copy file="${cfc}" tofile="${dist}/extension/context/admin/dbdriver/${cfcName}"/>
         <loadfile property="content1" srcFile="${dist}/extension/context/admin/dbdriver/${cfcName}" />
         <replace haystack="${content1}" needle="{class-name}" repl="${driverClass}" property="content2"/>
-        <replace haystack="${content2}" needle="{bundle-name}" repl="${bundleName}" property="content3"/>
+        <replace haystack="${content2}" needle="{maven}" repl="${mvnGroupId}:${mvnArtifactId}" property="content3"/>
         <replace haystack="${content3}" needle="{id}" repl="${jdbcid}" property="content4"/>
         <replace haystack="${content4}" needle="{label}" repl="${label}" property="content5"/>
         <replace haystack="${content5}" needle="{description}" repl="${desc}" property="content6"/>

@@ -56,7 +56,7 @@
 	
 	<cfset this.dsn="jdbc:duckdb:file:{path}">
 	<cfset this.className="org.duckdb.DuckDBDriver">
-	<cfset this.bundleName="org.duckdb.duckdb_jdbc">
+	<cfset this.maven="{maven}">
 	
 	<cfset SLASH=struct(
 		'/':'\',

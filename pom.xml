@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.lucee</groupId>
     <artifactId>duckdb-jdbc-extension</artifactId>
-    <version>1.5.4.0</version>
+    <version>2.0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>DuckDB Extension</name>
 
@@ -16,17 +16,19 @@
         <id>811918E2-796C-4354-8374B1F331118AEB</id>
         <image>https://raw.githubusercontent.com/lucee/extension-jdbc-duckdb/main/source/images/logo.png</image>
         <buildDate>${maven.build.timestamp}</buildDate>
-        <luceeCoreVersion>7.0.0.110</luceeCoreVersion>
+        <!-- the first Lucee version that loads a JDBC driver from maven coordinates (no OSGi bundle needed) -->
+        <luceeCoreVersion>7.1.0.184</luceeCoreVersion>
         <connstr>jdbc:duckdb:file:{path}{database}</connstr>
         <jdbcid>duckdb</jdbcid>
         <label>DuckDB JDBC Driver</label>
         <releaseType>server</releaseType>
         <driverClass>org.duckdb.DuckDBDriver</driverClass>
-        <bundleName>org.duckdb.duckdb_jdbc</bundleName>
-        <bundleVersion>${project.version}</bundleVersion>
+        <!-- DuckDB JDBC driver version, the extension version is <driverVersion> (with -SNAPSHOT, -RC, ... while it is not final).
+             The driver is only loaded from Maven Central through these maven coordinates, it is not an OSGi bundle of the extension. -->
+        <driverVersion>2.0.0.1</driverVersion>
         <mvnGroupId>org.duckdb</mvnGroupId>
         <mvnArtifactId>duckdb_jdbc</mvnArtifactId>
-        <mvnVersion>${project.version}</mvnVersion>
+        <mvnVersion>${driverVersion}</mvnVersion>
         <release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.url>
         <snapshot.url>https://oss.sonatype.org/content/repositories/snapshots/</snapshot.url>
     </properties>
@@ -186,8 +188,6 @@
                                     <property name="luceeCoreVersion" value="${luceeCoreVersion}"/>
                                     <property name="releaseType" value="${releaseType}"/>
                                     <property name="driverClass" value="${driverClass}"/>
-                                    <property name="bundleName" value="${bundleName}"/>
-                                    <property name="bundleVersion" value="${bundleVersion}"/>
                                     <property name="mvnGroupId" value="${mvnGroupId}"/>
                                     <property name="mvnArtifactId" value="${mvnArtifactId}"/>
                                     <property name="mvnVersion" value="${mvnVersion}"/>
