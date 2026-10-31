@@ -1,11 +1,9 @@
 component extends="org.lucee.cfml.test.LuceeTestCase" labels="duckdb" {
 
 	function beforeAll (){
-		variables.bundleName = "org.duckdb.duckdb_jdbc";
-		variables.mavenVersion = "1.5.4.0"; // keep in sync with pom.xml mvnVersion
+		variables.mavenVersion = "2.0.0.1"; // keep in sync with pom.xml driverVersion
 		variables.ds = {
 			class: "org.duckdb.DuckDBDriver"
-			,bundleName: bundleName
 			,maven: "org.duckdb:duckdb_jdbc:" & mavenVersion
 			,connectionString: "jdbc:duckdb:"
 		};
